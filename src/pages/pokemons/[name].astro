@@ -58,7 +58,12 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
                 <Title>{name}</Title>
             </div>
 
-            <button id="favorite-btn" class="ml-4">
+            <button
+                id="favorite-btn"
+                class="ml-4"
+                data-name={name}
+                data-id={id}
+            >
                 <Icon name="heart-outline" size={50} />
                 <Icon class="hidden" name="heart-full" size={50} />
             </button>
@@ -71,6 +76,28 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
         </audio>
     </section>
 </MainLayout>
+
+<script>
+    interface FavoritePokemon {
+        name: string;
+        id: number;
+    }
+
+    document.addEventListener("astro:page-load", () => {
+        const btnFavorite = document.querySelector(
+            "#favorite-btn",
+        ) as HTMLButtonElement;
+
+        if (!btnFavorite) return;
+
+        const name = btnFavorite.dataset.name;
+        const id = btnFavorite.dataset.id;
+
+        btnFavorite.addEventListener("click", () => {
+            console.log(name, id);
+        });
+    });
+</script>
 
 <style>
     @reference "tailwindcss";
