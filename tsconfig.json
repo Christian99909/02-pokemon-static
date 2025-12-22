@@ -22,6 +22,8 @@
       "@interfaces/*": [
         "./src/interfaces/*"
       ]
-    }
+    },
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js"
   }
 }
