@@ -104,17 +104,50 @@ const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprit
     // });
 
     const handlePageLoad = () => {
+        let favoritePokemons: FavoritePokemon[] = JSON.parse(
+            localStorage.getItem("favorites") ?? "[]",
+        );
+
         const btnFavorite = document.querySelector(
             "#favorite-btn",
         ) as HTMLButtonElement;
 
         if (!btnFavorite) return;
 
-        const name = btnFavorite.dataset.name;
-        const id = btnFavorite.dataset.id;
+        const name = btnFavorite.dataset.name ?? "";
+        const id = btnFavorite.dataset.id ?? "";
+
+        const heartOutline = btnFavorite.querySelector(
+            "[data-outline]",
+        ) as HTMLElement;
+        const heartFull = btnFavorite.querySelector(
+            "[data-full]",
+        ) as HTMLElement;
+
+        const toggleFavorite = () => {
+            const isFavorite = favoritePokemons.some(
+                (fav) => fav.name === name,
+            );
+
+            if (isFavorite) {
+                //remover favorito
+
+                favoritePokemons = favoritePokemons.filter(
+                    (fav) => fav.name !== name,
+                );
+            } else {
+                //agregar favorito
+                favoritePokemons.push({ name: name, id: +id });
+            }
+
+            localStorage.setItem("favorites", JSON.stringify(favoritePokemons));
+        };
 
         btnFavorite.addEventListener("click", () => {
-            console.log(name, id);
+            heartOutline.classList.toggle("hidden");
+            heartFull.classList.toggle("hidden");
+
+            toggleFavorite();
         });
     };
 
